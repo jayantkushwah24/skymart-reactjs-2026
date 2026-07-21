@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
 
 const Footer = () => {
   return (
     <div>
-      footer
+      <hr />
+      <h1>SkyMart</h1>
+      <p>© 2026 SkyMart • Built with React • Jayant Kushwah</p>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

@@ -1,13 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 const Products = () => {
   const [productsList, setProductsList] = useState([]);
   const [products, setProducts] = useState([]);
+  const { category } = useParams();
+
+  let url = "https://fakestoreapi.com/products";
+
+  if (category) {
+    url = url + "/category/" + category;
+  }
 
   function getProductsData() {
     try {
-      axios.get("https://fakestoreapi.com/products").then((response) => {
+      axios.get(url).then((response) => {
         const data = response.data;
         setProductsList(data);
         setProducts(data);
@@ -82,6 +90,7 @@ const Products = () => {
           <option value="men's clothing">Men's clothing</option>
           <option value="jewelery">Jewelery</option>
           <option value="women's clothing">Women's clothing</option>
+          <option value="electronics">Electronics</option>
         </select>
         <select name="sorting" onChange={(e) => handleSorting(e)}>
           <option value="default" selected>

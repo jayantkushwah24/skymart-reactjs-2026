@@ -21,7 +21,17 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between">
-      <div onClick={() => navigate("/")}>SkyMart</div>
+      <div onClick={() => navigate("/")}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          width={25}
+        >
+          <path d="M13 10H20L11 23V14H4L13 1V10Z"></path>
+        </svg>
+        <h1>SkyMart</h1>
+      </div>
       <div className="flex gap-5">
         <NavLink to={"/home"}>Home</NavLink>
         <NavLink to={"/products"}>Shop</NavLink>
