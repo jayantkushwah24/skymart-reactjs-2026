@@ -39,7 +39,7 @@ const SignIn = () => {
           avatar: user.avatar,
         }),
       );
-      navigate("/");
+      navigate("/home");
     } else {
       alert("Incorrect password.");
     }
