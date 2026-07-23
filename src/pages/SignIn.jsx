@@ -2,33 +2,31 @@ import { nanoid } from "nanoid";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const {
     handleSubmit,
     register,
     formState: { errors },
-    reset,
   } = useForm();
   const navigate = useNavigate();
 
   function handleSignInForm({ email, password }) {
-    let users = JSON.parse(localStorage.getItem("sm_users")) || [];
+    const users = JSON.parse(localStorage.getItem("sm_users")) || [];
 
     if (users.length === 0) {
-      alert("User do not exist. Please register.");
+      toast.error("User do not exist. Please register.");
       return;
     }
 
-    let user = users.find((u) => u.email === email) || [];
+    const user = users.find((u) => u.email === email);
 
-    console.log(user.password, password);
-
-    if (user.length === 0) {
-      alert("User do not exist. Please register.");
+    if (!user) {
+      toast.error("User do not exist. Please register.");
       return;
     } else if (user.password === password) {
-      alert("Login successful");
+      toast.success("Login successful");
       localStorage.setItem(
         "sm_session",
         JSON.stringify({
@@ -41,31 +39,50 @@ const SignIn = () => {
       );
       navigate("/home");
     } else {
-      alert("Incorrect password.");
+      toast.success("Incorrect password.");
     }
   }
 
   return (
-    <div>
-      <h1>Sign in</h1>
-      <p>Enter your credentials to continue</p>
-      <form action="" onSubmit={handleSubmit((data) => handleSignInForm(data))}>
-        <input
-          {...register("email")}
-          type="email"
-          placeholder="Email address"
-        />
-        <input
-          {...register("password")}
-          type="password"
-          placeholder="Password"
-        />
-        <button type="submit">Sign in</button>
-        <p>
-          Don't have an account?{" "}
-          <NavLink to={"/register"}>Create one</NavLink>{" "}
+    <div className="flex min-h-screen items-center justify-center bg-transparent px-4 py-10">
+      <div className="w-full max-w-md rounded-4xl border border-white/10 bg-slate-900/80 p-8 shadow-2xl shadow-slate-950/50 backdrop-blur">
+        <div className="mb-8 text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/10 text-2xl text-cyan-300">⚡</div>
+          <h1 className="mt-4 text-3xl font-semibold text-white">Welcome back</h1>
+          <p className="mt-2 text-sm text-slate-400">Enter your credentials to continue</p>
+        </div>
+
+        <form className="space-y-4" onSubmit={handleSubmit((data) => handleSignInForm(data))}>
+          <div>
+            <input
+              {...register("email", { required: "Email is required" })}
+              type="email"
+              placeholder="Email address"
+              className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-400"
+            />
+            {errors.email && <p className="mt-2 text-sm text-rose-400">{errors.email.message}</p>}
+          </div>
+          <div>
+            <input
+              {...register("password", { required: "Password is required" })}
+              type="password"
+              placeholder="Password"
+              className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-400"
+            />
+            {errors.password && <p className="mt-2 text-sm text-rose-400">{errors.password.message}</p>}
+          </div>
+          <button type="submit" className="w-full rounded-full bg-cyan-400 px-4 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300">
+            Sign in
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-slate-400">
+          Don&apos;t have an account?{" "}
+          <NavLink to="/register" className="font-semibold text-cyan-300">
+            Create one
+          </NavLink>
         </p>
-      </form>
+      </div>
     </div>
   );
 };

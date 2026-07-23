@@ -7,12 +7,14 @@ import Feature from "../components/Feature";
 
 const Home = () => {
   return (
-    <div>
+    <div className="space-y-8">
       <WelcomeBanner />
       <ActivitySummary />
       <ShopByCategory />
-      <TopRated />
-      <NewArrivals />
+      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <TopRated />
+        <NewArrivals />
+      </div>
       <Feature />
     </div>
   );

@@ -14,7 +14,7 @@ const App = () => {
   const { showCart } = useContext(CartContext);
 
   return (
-    <div>
+    <div className="min-h-screen bg-transparent text-slate-100">
       {showCart && <Cart />}
       <Routes>
         <Route path="/signin" element={<SignIn />} />

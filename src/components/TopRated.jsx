@@ -10,8 +10,7 @@ const TopRated = () => {
     axios
       .get("https://fakestoreapi.com/products?limit=5")
       .then((response) => {
-        let data = response.data;
-        data.sort((a, b) => b.rating.rate - a.rating.rate);
+        const data = [...response.data].sort((a, b) => b.rating.rate - a.rating.rate);
         setTopRatedProducts(data);
       })
       .catch((error) => {
@@ -24,29 +23,41 @@ const TopRated = () => {
   }, []);
 
   return (
-    <div>
-      <div>
-        <h1>Top Rated</h1>
-        <button onClick={() => navigate("/products")}>See All</button>
+    <section className="rounded-4xl border border-white/10 bg-slate-900/70 p-6 shadow-xl shadow-slate-950/30 sm:p-8">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">
+            Featured
+          </p>
+          <h2 className="text-2xl font-semibold text-white">Top rated</h2>
+        </div>
+        <button
+          onClick={() => navigate("/products")}
+          className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300 transition hover:bg-white/10"
+        >
+          See all
+        </button>
       </div>
-      <div>
-        {TopRatedProducts.map((p) => {
-          return (
-            <div
-              onClick={() => navigate(`/products/${p.id}`)}
-              key={p.id}
-              className="flex justify-between"
-            >
-              <div className="flex">
-                <img src={p.image} width={30} alt="" />
-                <h1>${p.price}</h1>
+
+      <div className="space-y-3">
+        {TopRatedProducts.map((p) => (
+          <button
+            key={p.id}
+            onClick={() => navigate(`/products/${p.id}`)}
+            className="flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left transition hover:border-cyan-400/40 hover:bg-white/10"
+          >
+            <div className="flex items-center gap-3">
+              <img src={p.image} alt={p.title} className="h-12 w-12 rounded-xl object-contain" />
+              <div>
+                <p className="text-sm font-medium text-white">${p.price}</p>
+                <p className="text-sm text-slate-400">⭐ {p.rating.rate}</p>
               </div>
-              <div>🛒</div>
             </div>
-          );
-        })}
+            <span className="text-cyan-300">→</span>
+          </button>
+        ))}
       </div>
-    </div>
+    </section>
   );
 };
 
