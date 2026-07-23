@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { CartContext } from "../context/CartContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const data = JSON.parse(localStorage.getItem("sm_session"));
@@ -10,7 +11,7 @@ const Navbar = () => {
   useEffect(() => {
     if (data === null) {
       navigate("/signin");
-      alert("Please signin");
+      toast.error("Please signin");
     }
   }, [data, navigate]);
 
@@ -19,6 +20,7 @@ const Navbar = () => {
     if (!confirmLogout) return;
     localStorage.removeItem("sm_session");
     navigate("/signin");
+    toast.success("Logged out successfully.")
   }
 
   return (
