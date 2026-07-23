@@ -1,16 +1,24 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { CartContext } from "../context/CartContext";
 
 const Products = () => {
   const [productsList, setProductsList] = useState([]);
   const [products, setProducts] = useState([]);
   const { category } = useParams();
+  const navigate = useNavigate();
+  const { cartItems, setCartItems } = useContext(CartContext);
 
   let url = "https://fakestoreapi.com/products";
 
   if (category) {
     url = url + "/category/" + category;
+  }
+
+  function handleAddToCart(item) {
+    setCartItems([...cartItems, { ...item, quantity: 1 }]);
+    localStorage.setItem("sm_cartItems", JSON.stringify(cartItems));
   }
 
   function getProductsData() {
@@ -106,18 +114,18 @@ const Products = () => {
         {products.map((p) => {
           return (
             <div id="products-card" key={p.id}>
-              <div>
+              <div onClick={() => navigate(`/products/${p.id}`)}>
                 <p>{p.category}</p>
                 <img src={p.image} alt="img" />
               </div>
               <div>
-                <h1>{p.title}</h1>
+                <h1 onClick={() => navigate(`/products/${p.id}`)}>{p.title}</h1>
                 <div>
                   ⭐{p.rating.rate} ({p.rating.count})
                 </div>
                 <hr />
                 <h2>${p.price}</h2>
-                <button>Add to cart</button>
+                <button onClick={() => handleAddToCart(p)}>Add to cart</button>
               </div>
             </div>
           );

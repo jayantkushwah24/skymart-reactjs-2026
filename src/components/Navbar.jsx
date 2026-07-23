@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
+import { CartContext } from "../context/CartContext";
 
 const Navbar = () => {
   const data = JSON.parse(localStorage.getItem("sm_session"));
   const navigate = useNavigate();
+  const { setShowCart } = useContext(CartContext);
 
   useEffect(() => {
     if (data === null) {
@@ -39,8 +41,8 @@ const Navbar = () => {
       </div>
       <div className="flex gap-5">
         <div id="user-name">{data?.name}</div>
-        <div id="cart">
-          <NavLink to={"/cart"}>🛒</NavLink>
+        <div id="cart" onClick={() => setShowCart(true)}>
+          🛒
         </div>
         <div id="logout">
           <button onClick={() => handleLogout()}>➜]</button>
